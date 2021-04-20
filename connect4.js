@@ -38,9 +38,9 @@ function splat(n) {
     for(let i=0; i <= 6; i++) {
       for(let j=0; j <= 5; j++) {
         let me = model.board.charAt(i + j * 8);
-        //if(me != '.') {
+        if(me != '.') {
           context.fillText(me, 38 + i * 50, 105 + j * 50);
-        //}
+        }
       }
     }
 
@@ -52,9 +52,7 @@ function splat(n) {
 
 document.addEventListener("DOMContentLoaded",() => { 
     canvas = document.querySelector("#myCanvas"); 
-    //console.log("Got here");
     context = canvas.getContext("2d"); 
-    //console.log(context); 
     splat(); 
 })
 function roundMe(x) {return Math.ceil((x-20)/50)}
