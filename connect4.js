@@ -62,11 +62,11 @@ document.addEventListener("click",e => {
     const [i, j] = [e.x, e.y].map(roundMe);
     const ix = (i + j * 8)-17;
     console.log(i, j, ix);
+    model.board = model.board.slice(0, ix) + model.next + model.board.slice(ix+1, 47);
     if(model.next === "O") {
       model.next = "X";
     }
     else {
       model.next = "O";
     }
-    model.board = model.board.slice(0, ix) + model.next + model.board.slice(ix+1, 47);
 })
