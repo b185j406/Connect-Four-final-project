@@ -96,13 +96,49 @@ function isWinnerX(board) {
     i=i+7;
   }
 
-//down
+  //down
   for(let s=0; s<21; s++) {
     for(let i=0; i<7; i++) {
       for(let j=0; j<31; j++) {
         let insert = j+i+s;
         tempBoard = tempBoard.slice(0, insert) + "X" + tempBoard.slice(insert+1, 47);
         j=j+7;
+      }
+      if(tempBoard === board)
+      {
+        console.log("Player 'X' wins!");
+         reset();
+      }
+      tempBoard = "......./......./......./......./......./.......";
+    }
+    s=s+7;
+  }
+
+  //diagonal right
+  for(let s=0; s<21; s++) {
+    for(let i=0; i<4; i++) {
+      for(let j=0; j<31; j++) {
+        let insert = j+i+s;
+        tempBoard = tempBoard.slice(0, insert) + "X" + tempBoard.slice(insert+1, 47);
+        j=j+8;
+      }
+      if(tempBoard === board)
+      {
+        console.log("Player 'X' wins!");
+         reset();
+      }
+      tempBoard = "......./......./......./......./......./.......";
+    }
+    s=s+7;
+  }
+
+  //diagonal left
+  for(let s=0; s<21; s++) {
+    for(let i=4; i>0; i--) {
+      for(let j=0; j<28; j++) {
+        let insert = j+i+s+2;
+        tempBoard = tempBoard.slice(0, insert) + "X" + tempBoard.slice(insert+1, 47);
+        j=j+6;
       }
       if(tempBoard === board)
       {
