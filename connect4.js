@@ -7,9 +7,11 @@ let model = {
     next: "O",
 } 
 
+
 function tick() {       
     window.requestAnimationFrame(splat); 
 } 
+
 
 function splat(n) {
     let d = n-t; 
@@ -50,13 +52,16 @@ function splat(n) {
     tick(); 
 } 
 
+
 document.addEventListener("DOMContentLoaded",() => { 
     canvas = document.querySelector("#myCanvas"); 
     context = canvas.getContext("2d"); 
     splat(); 
 })
 
+
 function roundMe(x) {return Math.ceil((x-20)/50)}
+
 
 document.addEventListener("click",e => { 
     const [i, j] = [e.x, e.y].map(roundMe);
@@ -69,4 +74,48 @@ document.addEventListener("click",e => {
     else {
       model.next = "O";
     }
+    isWinnerX(model.board);
 })
+
+
+function isWinnerX(board) {
+  let tempBoard = "......./......./......./......./......./.......";
+
+  //across
+  for(let i=0; i<47; i++) {
+    for(let j=0; j<4; j++) {
+      let insert = (j + i);
+      tempBoard = tempBoard.slice(0, insert) + "XXXX" + tempBoard.slice(insert+4, 47);
+      if(tempBoard === board)
+      {
+        console.log("Player 'X' wins!");
+         reset();
+      }
+      tempBoard = "......./......./......./......./......./.......";
+    }
+    i=i+7;
+  }
+
+//down
+  for(let s=0; s<21; s++) {
+    for(let i=0; i<7; i++) {
+      for(let j=0; j<31; j++) {
+        let insert = j+i+s;
+        tempBoard = tempBoard.slice(0, insert) + "X" + tempBoard.slice(insert+1, 47);
+        j=j+7;
+      }
+      if(tempBoard === board)
+      {
+        console.log("Player 'X' wins!");
+         reset();
+      }
+      tempBoard = "......./......./......./......./......./.......";
+    }
+    s=s+7;
+  }
+}
+
+
+function reset() {
+  model.board = "......./......./......./......./......./.......";
+}
