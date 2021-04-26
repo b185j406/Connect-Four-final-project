@@ -7,7 +7,10 @@ let model = {
     next: "O",
     winner: false,
     title: "Connect Four",
-    resetButton: "",
+    resetColor: "white",
+    Owins: 0,
+    Xwins: 0,
+
 } 
 
 function tick() {       
@@ -48,12 +51,28 @@ function splat(n) {
     }
 
     context.font = "25pt Calibri"; 
-    context.fillStyle = "black";
+    context.fillStyle = "red";
     context.fillText(JSON.stringify(model.title), 90, 55);
 
     context.font = "10pt Calibri"; 
+    context.fillStyle = model.resetColor;
+    context.fillText(JSON.stringify("reset"), 355, 388);
+
+    context.font = "10pt Calibri"; 
     context.fillStyle = "black";
-    context.fillText(JSON.stringify(model.resetButton), 10, 390);
+    context.fillText(JSON.stringify("reset score"), 0, 12);
+
+    context.font = "12pt Calibri"; 
+    context.fillStyle = "black";
+    context.fillText(JSON.stringify("O wins:              X wins:    "), 15, 395);
+
+    context.font = "12pt Calibri"; 
+    context.fillStyle = "black";
+    context.fillText(JSON.stringify(model.Owins), 75, 395);
+
+    context.font = "12pt Calibri"; 
+    context.fillStyle = "black";
+    context.fillText(JSON.stringify(model.Xwins), 170, 395);
 
     tick(); 
 } 
@@ -69,37 +88,45 @@ function roundMe(x) {return Math.ceil((x-20)/50)}
 document.addEventListener("click",e => { 
     const [i, j] = [e.x, e.y].map(roundMe);
     let ix = (i + 39);
-    for(let l=0; l<40; l++)
+    if(j === 0)
     {
-      if(model.board.slice(ix, ix+1) === "O" || model.board.slice(ix, ix+1) === "X")
-      {
-        ix = (i - l + 31);
-      }
-      l=l+7;
-    }
-    if(model.board.slice(ix, ix+1) === "O" || model.board.slice(ix, ix+1) === "X")
-    {
-      console.log("Opps, this collum is already full");
+      model.Owins = 0;
+      model.Xwins = 0;
     }
     else
     {
-      model.board = model.board.slice(0, ix) + model.next + model.board.slice(ix+1, 47);
-      if(model.next === "O") {
-        model.next = "X";
-      }
-      else {
-        model.next = "O";
-      }
-      if(model.winner === true)
+      for(let l=0; l<40; l++)
       {
-        reset();
+        if(model.board.slice(ix, ix+1) === "O" || model.board.slice(ix, ix+1) === "X")
+        {
+          ix = (i - l + 31);
+        }
+        l=l+7;
       }
-      isWinnerX(model.board);
-      isWinnerO(model.board);
-      if(model.winner === true)
+      if(model.board.slice(ix, ix+1) === "O" || model.board.slice(ix, ix+1) === "X")
       {
-        console.log("Click reset button to reset");
-        model.resetButton = "reset";
+        console.log("Opps, this collum is already full");
+      }
+      else
+      {
+        model.board = model.board.slice(0, ix) + model.next + model.board.slice(ix+1, 47);
+        if(model.next === "O") {
+          model.next = "X";
+        }
+        else {
+          model.next = "O";
+        }
+        if(model.winner === true)
+        {
+          reset();
+        }
+        isWinnerX(model.board);
+        isWinnerO(model.board);
+        if(model.winner === true)
+        {
+          console.log("Click reset button to reset");
+          model.resetColor = "red";
+        }
       }
     }
 })
@@ -116,6 +143,7 @@ function isWinnerX(board) {
       {
         console.log("Player 'X' wins!");
         model.title = "Player 'X' Wins!";
+        model.Xwins = model.Xwins+1;
         model.winner = true;
       }
     }
@@ -134,6 +162,7 @@ function isWinnerX(board) {
       {
         console.log("Player 'X' wins!");
         model.title = "Player 'X' Wins!";
+        model.Xwins = model.Xwins+1;
         model.winner = true;
       }
       slicedBoard = "";
@@ -153,6 +182,7 @@ function isWinnerX(board) {
       {
         console.log("Player 'X' wins!");
         model.title = "Player 'X' Wins!";
+        model.Xwins = model.Xwins+1;
         model.winner = true;
       }
       slicedBoard = "";
@@ -172,6 +202,7 @@ function isWinnerX(board) {
       {
         console.log("Player 'X' wins!");
         model.title = "Player 'X' Wins!";
+        model.Xwins = model.Xwins+1;
         model.winner = true;
       }
       slicedBoard = "";
@@ -192,6 +223,7 @@ function isWinnerO(board) {
       {
         console.log("Player 'O' wins!");
         model.title = "Player 'O' Wins!";
+        model.Owins = model.Owins+1;
         model.winner = true;
       }
     }
@@ -210,6 +242,7 @@ function isWinnerO(board) {
       {
         console.log("Player 'O' wins!");
         model.title = "Player 'O' Wins!";
+        model.Owins = model.Owins+1;
         model.winner = true;
       }
       slicedBoard = "";
@@ -229,6 +262,7 @@ function isWinnerO(board) {
       {
         console.log("Player 'O' wins!");
         model.title = "Player 'O' Wins!";
+        model.Owins = model.Owins+1;
         model.winner = true;
       }
       slicedBoard = "";
@@ -248,6 +282,7 @@ function isWinnerO(board) {
       {
         console.log("Player 'O' wins!");
         model.title = "Player 'O' Wins!";
+        model.Owins = model.Owins+1;
         model.winner = true;
       }
       slicedBoard = "";
@@ -259,6 +294,6 @@ function isWinnerO(board) {
 function reset() {
   model.board = "......./......./......./......./......./.......";
   model.winner = false;
-  model.title = "Connet Four";
-  model.resetButton = "";
+  model.title = "Connect Four";
+  model.resetColor = "white";
 }
