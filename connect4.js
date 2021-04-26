@@ -7,6 +7,7 @@ let model = {
     next: "O",
     winner: false,
     title: "Connect Four",
+    resetButton: "",
 } 
 
 function tick() {       
@@ -49,6 +50,11 @@ function splat(n) {
     context.font = "25pt Calibri"; 
     context.fillStyle = "black";
     context.fillText(JSON.stringify(model.title), 90, 55);
+
+    context.font = "10pt Calibri"; 
+    context.fillStyle = "black";
+    context.fillText(JSON.stringify(model.resetButton), 10, 390);
+
     tick(); 
 } 
 
@@ -92,7 +98,8 @@ document.addEventListener("click",e => {
       isWinnerO(model.board);
       if(model.winner === true)
       {
-        console.log("Click board to reset");
+        console.log("Click reset button to reset");
+        model.resetButton = "reset";
       }
     }
 })
@@ -253,4 +260,5 @@ function reset() {
   model.board = "......./......./......./......./......./.......";
   model.winner = false;
   model.title = "Connet Four";
+  model.resetButton = "";
 }
