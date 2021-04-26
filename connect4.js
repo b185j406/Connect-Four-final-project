@@ -10,7 +10,6 @@ let model = {
     resetColor: "white",
     Owins: 0,
     Xwins: 0,
-
 } 
 
 function tick() {       
@@ -122,6 +121,7 @@ document.addEventListener("click",e => {
         }
         isWinnerX(model.board);
         isWinnerO(model.board);
+        tieChecker(model.board);
         if(model.winner === true)
         {
           console.log("Click reset button to reset");
@@ -288,6 +288,23 @@ function isWinnerO(board) {
       slicedBoard = "";
     }
     s=s+7;
+  }
+}
+
+function tieChecker(board)
+{
+  let isTie = 0;
+  for(let i=0; i<47; i++)
+  {
+    if(board.slice(i, i+1) === ".")
+    {
+      isTie = 1;
+    }
+  }
+  if(isTie === 0)
+  {
+    model.title = "It's a Tie!";
+    model.winner = true;
   }
 }
 
