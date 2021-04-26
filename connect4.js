@@ -76,7 +76,6 @@ document.addEventListener("click",e => {
     }
     else
     {
-      console.log(i, j, ix);
       model.board = model.board.slice(0, ix) + model.next + model.board.slice(ix+1, 47);
       if(model.next === "O") {
         model.next = "X";
@@ -90,6 +89,10 @@ document.addEventListener("click",e => {
       }
       isWinnerX(model.board);
       isWinnerO(model.board);
+      if(model.winner === true)
+      {
+        console.log("Click board to reset");
+      }
     }
 })
 
