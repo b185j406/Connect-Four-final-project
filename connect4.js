@@ -6,6 +6,7 @@ let model = {
     board: "......./......./......./......./......./.......", 
     next: "O",
     winner: false,
+    title: "Connect Four",
 } 
 
 function tick() {       
@@ -47,7 +48,7 @@ function splat(n) {
 
     context.font = "25pt Calibri"; 
     context.fillStyle = "black";
-    context.fillText(JSON.stringify('Connect Four'), 90, 55);
+    context.fillText(JSON.stringify(model.title), 90, 55);
     tick(); 
 } 
 
@@ -107,6 +108,7 @@ function isWinnerX(board) {
       if(tempBoard === board.slice(insert, insert+4))
       {
         console.log("Player 'X' wins!");
+        model.title = "Player 'X' Wins!";
         model.winner = true;
       }
     }
@@ -124,6 +126,7 @@ function isWinnerX(board) {
       if(tempBoard === slicedBoard)
       {
         console.log("Player 'X' wins!");
+        model.title = "Player 'X' Wins!";
         model.winner = true;
       }
       slicedBoard = "";
@@ -142,6 +145,7 @@ function isWinnerX(board) {
       if(tempBoard === slicedBoard)
       {
         console.log("Player 'X' wins!");
+        model.title = "Player 'X' Wins!";
         model.winner = true;
       }
       slicedBoard = "";
@@ -160,6 +164,7 @@ function isWinnerX(board) {
       if(tempBoard === slicedBoard)
       {
         console.log("Player 'X' wins!");
+        model.title = "Player 'X' Wins!";
         model.winner = true;
       }
       slicedBoard = "";
@@ -179,6 +184,7 @@ function isWinnerO(board) {
       if(tempBoard === board.slice(insert, insert+4))
       {
         console.log("Player 'O' wins!");
+        model.title = "Player 'O' Wins!";
         model.winner = true;
       }
     }
@@ -196,6 +202,7 @@ function isWinnerO(board) {
       if(tempBoard === slicedBoard)
       {
         console.log("Player 'O' wins!");
+        model.title = "Player 'O' Wins!";
         model.winner = true;
       }
       slicedBoard = "";
@@ -214,6 +221,7 @@ function isWinnerO(board) {
       if(tempBoard === slicedBoard)
       {
         console.log("Player 'O' wins!");
+        model.title = "Player 'O' Wins!";
         model.winner = true;
       }
       slicedBoard = "";
@@ -232,6 +240,7 @@ function isWinnerO(board) {
       if(tempBoard === slicedBoard)
       {
         console.log("Player 'O' wins!");
+        model.title = "Player 'O' Wins!";
         model.winner = true;
       }
       slicedBoard = "";
@@ -243,4 +252,5 @@ function isWinnerO(board) {
 function reset() {
   model.board = "......./......./......./......./......./.......";
   model.winner = false;
+  model.title = "Connet Four";
 }
