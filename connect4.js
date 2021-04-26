@@ -5,6 +5,7 @@ let i = 0;
 let model = { 
     board: "......./......./......./......./......./.......", 
     next: "O",
+    winner: false,
 } 
 
 function tick() {       
@@ -60,33 +61,51 @@ function roundMe(x) {return Math.ceil((x-20)/50)}
 
 document.addEventListener("click",e => { 
     const [i, j] = [e.x, e.y].map(roundMe);
-    const ix = (i + j * 8)-17;
-    console.log(i, j, ix);
-    model.board = model.board.slice(0, ix) + model.next + model.board.slice(ix+1, 47);
-    if(model.next === "O") {
-      model.next = "X";
+    let ix = (i + 39);
+    for(let l=0; l<40; l++)
+    {
+      if(model.board.slice(ix, ix+1) === "O" || model.board.slice(ix, ix+1) === "X")
+      {
+        ix = (i - l + 31);
+      }
+      l=l+7;
     }
-    else {
-      model.next = "O";
+    if(model.board.slice(ix, ix+1) === "O" || model.board.slice(ix, ix+1) === "X")
+    {
+      console.log("Opps, this collum is already full");
     }
-    isWinnerX(model.board);
-    isWinnerO(model.board);
+    else
+    {
+      console.log(i, j, ix);
+      model.board = model.board.slice(0, ix) + model.next + model.board.slice(ix+1, 47);
+      if(model.next === "O") {
+        model.next = "X";
+      }
+      else {
+        model.next = "O";
+      }
+      if(model.winner === true)
+      {
+        reset();
+      }
+      isWinnerX(model.board);
+      isWinnerO(model.board);
+    }
 })
 
 function isWinnerX(board) {
-  let tempBoard = "......./......./......./......./......./.......";
+  let tempBoard = "XXXX";
+  let slicedBoard = "";
 
   //across
   for(let i=0; i<47; i++) {
     for(let j=0; j<4; j++) {
       let insert = (j + i);
-      tempBoard = tempBoard.slice(0, insert) + "XXXX" + tempBoard.slice(insert+4, 47);
-      if(tempBoard === board)
+      if(tempBoard === board.slice(insert, insert+4))
       {
         console.log("Player 'X' wins!");
-         reset();
+        model.winner = true;
       }
-      tempBoard = "......./......./......./......./......./.......";
     }
     i=i+7;
   }
@@ -96,15 +115,15 @@ function isWinnerX(board) {
     for(let i=0; i<7; i++) {
       for(let j=0; j<31; j++) {
         let insert = j+i+s;
-        tempBoard = tempBoard.slice(0, insert) + "X" + tempBoard.slice(insert+1, 47);
+        slicedBoard = slicedBoard + board.slice(insert, insert+1);
         j=j+7;
       }
-      if(tempBoard === board)
+      if(tempBoard === slicedBoard)
       {
         console.log("Player 'X' wins!");
-         reset();
+        model.winner = true;
       }
-      tempBoard = "......./......./......./......./......./.......";
+      slicedBoard = "";
     }
     s=s+7;
   }
@@ -114,15 +133,15 @@ function isWinnerX(board) {
     for(let i=0; i<4; i++) {
       for(let j=0; j<31; j++) {
         let insert = j+i+s;
-        tempBoard = tempBoard.slice(0, insert) + "X" + tempBoard.slice(insert+1, 47);
+        slicedBoard = slicedBoard + board.slice(insert, insert+1);
         j=j+8;
       }
-      if(tempBoard === board)
+      if(tempBoard === slicedBoard)
       {
         console.log("Player 'X' wins!");
-         reset();
+        model.winner = true;
       }
-      tempBoard = "......./......./......./......./......./.......";
+      slicedBoard = "";
     }
     s=s+7;
   }
@@ -132,34 +151,33 @@ function isWinnerX(board) {
     for(let i=4; i>0; i--) {
       for(let j=0; j<28; j++) {
         let insert = j+i+s+2;
-        tempBoard = tempBoard.slice(0, insert) + "X" + tempBoard.slice(insert+1, 47);
+        slicedBoard = slicedBoard + board.slice(insert, insert+1);
         j=j+6;
       }
-      if(tempBoard === board)
+      if(tempBoard === slicedBoard)
       {
         console.log("Player 'X' wins!");
-         reset();
+        model.winner = true;
       }
-      tempBoard = "......./......./......./......./......./.......";
+      slicedBoard = "";
     }
     s=s+7;
   }
 }
 
 function isWinnerO(board) {
-  let tempBoard = "......./......./......./......./......./.......";
+  let tempBoard = "OOOO";
+  let slicedBoard = "";
 
   //across
   for(let i=0; i<47; i++) {
     for(let j=0; j<4; j++) {
       let insert = (j + i);
-      tempBoard = tempBoard.slice(0, insert) + "OOOO" + tempBoard.slice(insert+4, 47);
-      if(tempBoard === board)
+      if(tempBoard === board.slice(insert, insert+4))
       {
         console.log("Player 'O' wins!");
-         reset();
+        model.winner = true;
       }
-      tempBoard = "......./......./......./......./......./.......";
     }
     i=i+7;
   }
@@ -169,15 +187,15 @@ function isWinnerO(board) {
     for(let i=0; i<7; i++) {
       for(let j=0; j<31; j++) {
         let insert = j+i+s;
-        tempBoard = tempBoard.slice(0, insert) + "O" + tempBoard.slice(insert+1, 47);
+        slicedBoard = slicedBoard + board.slice(insert, insert+1);
         j=j+7;
       }
-      if(tempBoard === board)
+      if(tempBoard === slicedBoard)
       {
         console.log("Player 'O' wins!");
-         reset();
+        model.winner = true;
       }
-      tempBoard = "......./......./......./......./......./.......";
+      slicedBoard = "";
     }
     s=s+7;
   }
@@ -187,15 +205,15 @@ function isWinnerO(board) {
     for(let i=0; i<4; i++) {
       for(let j=0; j<31; j++) {
         let insert = j+i+s;
-        tempBoard = tempBoard.slice(0, insert) + "O" + tempBoard.slice(insert+1, 47);
+        slicedBoard = slicedBoard + board.slice(insert, insert+1);
         j=j+8;
       }
-      if(tempBoard === board)
+      if(tempBoard === slicedBoard)
       {
         console.log("Player 'O' wins!");
-         reset();
+        model.winner = true;
       }
-      tempBoard = "......./......./......./......./......./.......";
+      slicedBoard = "";
     }
     s=s+7;
   }
@@ -205,15 +223,15 @@ function isWinnerO(board) {
     for(let i=4; i>0; i--) {
       for(let j=0; j<28; j++) {
         let insert = j+i+s+2;
-        tempBoard = tempBoard.slice(0, insert) + "O" + tempBoard.slice(insert+1, 47);
+        slicedBoard = slicedBoard + board.slice(insert, insert+1);
         j=j+6;
       }
-      if(tempBoard === board)
+      if(tempBoard === slicedBoard)
       {
         console.log("Player 'O' wins!");
-         reset();
+        model.winner = true;
       }
-      tempBoard = "......./......./......./......./......./.......";
+      slicedBoard = "";
     }
     s=s+7;
   }
@@ -221,4 +239,5 @@ function isWinnerO(board) {
 
 function reset() {
   model.board = "......./......./......./......./......./.......";
+  model.winner = false;
 }
